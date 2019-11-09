@@ -1,8 +1,12 @@
-class Organizations {
+import { Wrapper } from "./wrapper";
+
+export class Organizations {
+  public wrapper: Wrapper;
+
   /**
    * @param {Wrapper} wrapper
    */
-  constructor (wrapper) {
+  constructor (wrapper: Wrapper) {
     this.wrapper = wrapper;
   }
 
@@ -11,7 +15,7 @@ class Organizations {
    * @param {Object} data
    * @returns {Promise}
    */
-  create (data) {
+  create (data: any) {
     return this.wrapper.createOrganization(data);
   }
 
@@ -20,7 +24,7 @@ class Organizations {
    * @param {[Object]} params - Search parameters
    * @returns {Promise}
    */
-  list (params) {
+  list (params: {}) {
     return this.wrapper.listOrganizations(params);
   }
 
@@ -29,7 +33,7 @@ class Organizations {
    * @param {string} id
    * @returns {Promise}
    */
-  retrieve (id) {
+  retrieve (id: string) {
     return this.wrapper.retrieveOrganization(id);
   }
 
@@ -39,7 +43,7 @@ class Organizations {
    * @param {Object} data
    * @returns {Promise}
    */
-  updateLegal (id, data) {
+  updateLegal (id: string, data: any) {
     return this.wrapper.updateOrganizationLegal(id, data);
   }
 
@@ -49,7 +53,7 @@ class Organizations {
    * @param {Object} data
    * @returns {Promise}
    */
-  updateCustomization (id, data) {
+  updateCustomization (id: string, data: any) {
     return this.wrapper.updateOrganizationCustomization(id, data);
   }
 
@@ -59,7 +63,7 @@ class Organizations {
    * @param {ReadableStream} file
    * @returns {Promise}
    */
-  uploadLogo (id, file) {
+  uploadLogo (id: string, file: any) {
     return this.wrapper.uploadOrganizationLogo(id, file);
   }
 
@@ -71,7 +75,7 @@ class Organizations {
    * @param {string} password
    * @returns {Promise}
    */
-  uploadCertificate (id, cerFile, keyFile, password) {
+  uploadCertificate (id: string, cerFile: any, keyFile: any, password: any) {
     return this.wrapper.uploadOrganizationCertificate(
       id,
       cerFile,
@@ -85,7 +89,7 @@ class Organizations {
    * @param {string} id
    * @returns {Promise}
    */
-  del (id) {
+  del (id: string) {
     return this.wrapper.removeOrganization(id);
   }
 
@@ -94,9 +98,7 @@ class Organizations {
    * @param {string} id
    * @returns {Promise}
    */
-  getApiKeys (id) {
+  getApiKeys (id: string) {
     return this.wrapper.getOrganizationApiKeys(id);
   }
 }
-
-module.exports = Organizations;

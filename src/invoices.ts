@@ -1,8 +1,13 @@
-class Invoices {
+import { Wrapper } from "./wrapper";
+import { ReadStream } from "fs";
+
+export class Invoices {
+  public wrapper: Wrapper;
+
   /**
    * @param {Wrapper} wrapper
    */
-  constructor (wrapper) {
+  constructor (wrapper: Wrapper) {
     this.wrapper = wrapper;
   }
   /**
@@ -10,7 +15,7 @@ class Invoices {
    * @param {Object} data
    * @returns {Promise}
    */
-  create (data) {
+  create (data: object): Promise<any> {
     return this.wrapper.createInvoice(data);
   }
   /**
@@ -18,7 +23,7 @@ class Invoices {
    * @param {[Object]} params - Search parameters
    * @returns {Promise}
    */
-  list (params) {
+  list (params: [object]): Promise<any> {
     return this.wrapper.listInvoices(params);
   }
   /**
@@ -26,7 +31,7 @@ class Invoices {
    * @param {string} id
    * @returns {Promise}
    */
-  retrieve (id) {
+  retrieve (id: string): Promise<any> {
     return this.wrapper.retrieveInvoice(id);
   }
   /**
@@ -34,7 +39,7 @@ class Invoices {
    * @param {string} id
    * @returns {Promise}
    */
-  cancel (id) {
+  cancel (id: string): Promise<any> {
     return this.wrapper.cancelInvoice(id);
   }
   /**
@@ -44,7 +49,7 @@ class Invoices {
    * @param {String} data.email Email address to send the invoice to
    * @returns {Promise}
    */
-  sendByEmail (id, data) {
+  sendByEmail (id: string, data: { email: string }): Promise<any> {
     return this.wrapper.sendInvoiceByEmail(id, data);
   }
   /**
@@ -52,7 +57,7 @@ class Invoices {
    * @param {string} id Invoice Id
    * @returns {Promise<ReadStream>} PDF file in a stream
    */
-  downloadPdf (id) {
+  downloadPdf (id: string): Promise<ReadStream> {
     return this.wrapper.downloadPdf(id);
   }
   /**
@@ -60,7 +65,7 @@ class Invoices {
    * @param {string} id Invoice Id
    * @returns {Promise<ReadStream>} XML file in a stream
    */
-  downloadXml (id) {
+  downloadXml (id: string): Promise<ReadStream> {
     return this.wrapper.downloadXml(id);
   }
   /**
@@ -68,9 +73,7 @@ class Invoices {
    * @param {string} id Invoice Id
    * @returns {Promise<ReadStream>} ZIP file in a stream
    */
-  downloadZip (id) {
+  downloadZip (id: string): Promise<ReadStream> {
     return this.wrapper.downloadZip(id);
   }
 }
-
-module.exports = Invoices;

@@ -1,8 +1,12 @@
-class Customers {
+import { Wrapper } from "./wrapper";
+
+export class Customers {
+  public wrapper: Wrapper;
+
   /**
    * @param {Wrapper} wrapper
    */
-  constructor (wrapper) {
+  constructor (wrapper: Wrapper) {
     this.wrapper = wrapper;
   }
   /**
@@ -10,7 +14,7 @@ class Customers {
    * @param {Object} data
    * @returns {Promise}
    */
-  create (data) {
+  create (data: object): Promise<any> {
     return this.wrapper.createCustomer(data);
   }
   /**
@@ -18,7 +22,7 @@ class Customers {
    * @param {[Object]} params - Search parameters
    * @returns {Promise}
    */
-  list (params) {
+  list (params: [object]): Promise<any> {
     return this.wrapper.listCustomers(params);
   }
   /**
@@ -26,7 +30,7 @@ class Customers {
    * @param {string} id
    * @returns {Promise}
    */
-  retrieve (id) {
+  retrieve (id: string): Promise<any> {
     return this.wrapper.retrieveCustomer(id);
   }
   /**
@@ -35,7 +39,7 @@ class Customers {
    * @param {Object} data
    * @returns {Promise}
    */
-  update (id, data) {
+  update (id: string, data: object): Promise<any> {
     return this.wrapper.updateCustomer(id, data);
   }
   /**
@@ -43,7 +47,7 @@ class Customers {
    * @param {string} id
    * @returns {Promise}
    */
-  del (id) {
+  del (id: string): Promise<any> {
     return this.wrapper.removeCustomer(id);
   }
 }

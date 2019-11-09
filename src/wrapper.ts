@@ -1,26 +1,30 @@
-var constants = require("./constants");
-var axios = require("axios");
-var FormData = require("form-data");
-var Buffer = require("safe-buffer").Buffer;
+import axios from "axios";
+import constants from "./constants";
+const FormData = require("form-data");
 
 axios.defaults.baseURL = constants.BASE_URL;
 axios.defaults.headers.post["Content-Type"] = "application/json";
 axios.defaults.headers.put["Content-Type"] = "application/json";
-var responseInterceptor = function (response) {
+var responseInterceptor = function (response: { data: any }) {
   return response.data;
 };
-var errorInterceptor = function (error) {
+var errorInterceptor = function (error: {
+  response: { data: { message: string | undefined } };
+}) {
   return Promise.reject(new Error(error.response.data.message));
 };
 
-function encodeStringToBase64 (text) {
+function encodeStringToBase64 (text: string | ArrayBuffer | SharedArrayBuffer) {
   // Make sure text is a string
   text = text.toString();
   return Buffer.from(text).toString("base64");
 }
 
-class Wrapper {
-  constructor (apiKey) {
+export class Wrapper {
+  public client: any;
+  public t: any;
+
+  constructor (apiKey: string) {
     this.client = axios.create();
     this.client.interceptors.response.use(
       responseInterceptor,
@@ -31,7 +35,7 @@ class Wrapper {
       "Basic " + encodeStringToBase64(apiKey + ":");
   }
 
-  listCustomers (params) {
+  listCustomers (params: {}) {
     if (!params) params = {};
     return this.client.get("/customers", { params: params });
   }
@@ -40,7 +44,7 @@ class Wrapper {
    * Gets a single customer object
    * @param {string} id
    */
-  retrieveCustomer (id) {
+  retrieveCustomer (id: string) {
     if (!id) return Promise.reject(new Error("id is required"));
     return this.client.get("/customers/" + id);
   }
@@ -49,7 +53,7 @@ class Wrapper {
    * Creates a new customer in your organization
    * @param {Object} data
    */
-  createCustomer (data) {
+  createCustomer (data: any) {
     return this.client.post("/customers", data);
   }
 
@@ -58,7 +62,7 @@ class Wrapper {
    * @param {string} id
    * @param {Object} data
    */
-  updateCustomer (id, data) {
+  updateCustomer (id: string, data: any) {
     return this.client.put("/customers/" + id, data);
   }
 
@@ -66,7 +70,7 @@ class Wrapper {
    * Permanently removes a customer from your organization.
    * @param {string} id
    */
-  removeCustomer (id) {
+  removeCustomer (id: string) {
     return this.client.delete("/customers/" + id);
   }
 
@@ -74,7 +78,7 @@ class Wrapper {
    * Gets a paginated list of products that belong to your organization
    * @param {Object} params
    */
-  listProducts (params) {
+  listProducts (params: {}) {
     if (!params) params = {};
     return this.client.get("/products", { params: params });
   }
@@ -83,7 +87,7 @@ class Wrapper {
    * Gets a single product object
    * @param {string} id
    */
-  retrieveProduct (id) {
+  retrieveProduct (id: string) {
     if (!id) return Promise.reject(new Error("id is required"));
     return this.client.get("/products/" + id);
   }
@@ -92,7 +96,7 @@ class Wrapper {
    * Creates a new product in your organization
    * @param {Object} data
    */
-  createProduct (data) {
+  createProduct (data: any) {
     return this.client.post("/products", data);
   }
 
@@ -101,7 +105,7 @@ class Wrapper {
    * @param {string} id
    * @param {object} data
    */
-  updateProduct (id, data) {
+  updateProduct (id: string, data: any) {
     return this.client.put("/products/" + id, data);
   }
 
@@ -109,7 +113,7 @@ class Wrapper {
    * Permanently removes a product from your organization
    * @param {string} id
    */
-  removeProduct (id) {
+  removeProduct (id: string) {
     return this.client.delete("/products/" + id);
   }
 
@@ -117,7 +121,7 @@ class Wrapper {
    * Searches product keys by criteria "q"
    * @param {string} q
    */
-  keys (q) {
+  keys (q: any) {
     return this.client.get("/products/keys", { q: q });
   }
 
@@ -125,7 +129,7 @@ class Wrapper {
    * Searches product units by criteria "q"
    * @param {string} q
    */
-  units (q) {
+  units (q: any) {
     return this.client.get("/products/units", { q: q });
   }
 
@@ -133,7 +137,7 @@ class Wrapper {
    * Gets a paginated list of invoices created by your organization
    * @param {Object} params
    */
-  listInvoices (params) {
+  listInvoices (params: {}) {
     if (!params) params = {};
     return this.client.get("/invoices", { params: params });
   }
@@ -143,7 +147,7 @@ class Wrapper {
    * @param {string} id
    * @returns {Promise<Object>} Invoice object
    */
-  retrieveInvoice (id) {
+  retrieveInvoice (id: string) {
     if (!id) return Promise.reject(new Error("id is required"));
     return this.client.get("/invoices/" + id);
   }
@@ -152,7 +156,7 @@ class Wrapper {
    * Creates a new valid invoice (CFDI).
    * @param {Object} data
    */
-  createInvoice (data) {
+  createInvoice (data: any) {
     return this.client.post("/invoices", data);
   }
 
@@ -160,7 +164,7 @@ class Wrapper {
    * Cancels an invoice. The invoice will not be valid anymore and will change its status to canceled.
    * @param {string} id
    */
-  cancelInvoice (id) {
+  cancelInvoice (id: string) {
     return this.client.delete("/invoices/" + id);
   }
 
@@ -170,7 +174,7 @@ class Wrapper {
    * @param {Object} data
    * @param {string} data.email Email address to send the invoice to
    */
-  sendInvoiceByEmail (id, data) {
+  sendInvoiceByEmail (id: string, data: any) {
     return this.client.post("/invoices/" + id + "/email", data);
   }
 
@@ -179,7 +183,7 @@ class Wrapper {
    * @param {string} id Invoice Id
    * @returns {Promise<ReadStream>} PDF file in a stream
    */
-  downloadPdf (id) {
+  downloadPdf (id: string) {
     return this.client.get("/invoices/" + id + "/pdf", {
       responseType: "stream"
     });
@@ -190,7 +194,7 @@ class Wrapper {
    * @param {string} id Invoice Id
    * @returns {Promise<ReadStream>} XML file in a stream
    */
-  downloadXml (id) {
+  downloadXml (id: string) {
     return this.client.get("/invoices/" + id + "/xml", {
       responseType: "stream"
     });
@@ -201,7 +205,7 @@ class Wrapper {
    * @param {string} id Invoice Id
    * @returns {Promise<ReadStream>} ZIP file in a stream
    */
-  downloadZip (id) {
+  downloadZip (id: string) {
     return this.client.get("/invoices/" + id + "/zip", {
       responseType: "stream"
     });
@@ -211,7 +215,7 @@ class Wrapper {
    * Creates a new organization in your account
    * @param {Object} data
    */
-  createOrganization (data) {
+  createOrganization (data: any) {
     return this.client.post("/organizations", data);
   }
 
@@ -219,7 +223,7 @@ class Wrapper {
    * Gets a paginated list of organizations that belong to your account
    * @param {Object} params
    */
-  listOrganizations (params) {
+  listOrganizations (params: {}) {
     if (!params) params = {};
     return this.client.get("/organizations", { params: params });
   }
@@ -228,7 +232,7 @@ class Wrapper {
    * Gets a single organization object
    * @param {string} id
    */
-  retrieveOrganization (id) {
+  retrieveOrganization (id: string) {
     if (!id) return Promise.reject(new Error("id is required"));
     return this.client.get("/organizations/" + id);
   }
@@ -237,7 +241,7 @@ class Wrapper {
    * Gets the api keys for an organization
    * @param {string} id
    */
-  getOrganizationApiKeys (id) {
+  getOrganizationApiKeys (id: string) {
     if (!id) return Promise.reject(new Error("id is required"));
     return this.client.get("/organizations/" + id + "/apikeys");
   }
@@ -246,7 +250,7 @@ class Wrapper {
    * Permanently removes an organization from your account.
    * @param {string} id
    */
-  removeOrganization (id) {
+  removeOrganization (id: string) {
     if (!id) return Promise.reject(new Error("id is required"));
     return this.client.delete("/organizations/" + id);
   }
@@ -256,7 +260,7 @@ class Wrapper {
    * @param {string} id
    * @param {object} data
    */
-  updateOrganizationLegal (id, data) {
+  updateOrganizationLegal (id: string, data: any) {
     if (!id) return Promise.reject(new Error("id is required"));
     return this.client.put("/organizations/" + id + "/legal", data);
   }
@@ -266,7 +270,7 @@ class Wrapper {
    * @param {string} id
    * @param {object} data
    */
-  updateOrganizationCustomization (id, data) {
+  updateOrganizationCustomization (id: string, data: any) {
     return this.client.put("/organizations/" + id + "/customization", data);
   }
 
@@ -275,7 +279,7 @@ class Wrapper {
    * @param {string} id
    * @param {ReadableStream} file
    */
-  uploadOrganizationLogo (id, file) {
+  uploadOrganizationLogo (id: string, file: any) {
     const formData = new FormData();
     formData.append("file", file);
     return this.client.put("/organizations/" + id + "/logo", formData, {
@@ -290,7 +294,12 @@ class Wrapper {
    * @param {ReadableStream} keyFile
    * @param {string} password
    */
-  uploadOrganizationCertificate (id, cerFile, keyFile, password) {
+  uploadOrganizationCertificate (
+    id: string,
+    cerFile: any,
+    keyFile: any,
+    password: any
+  ) {
     const formData = new FormData();
     formData.append("cer", cerFile);
     formData.append("key", keyFile);
