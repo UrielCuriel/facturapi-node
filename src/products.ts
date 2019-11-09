@@ -5,7 +5,7 @@ import { Query, QueryResponse } from "./types/query";
 class Products {
   constructor (public wrapper: Wrapper) {}
 
-  create (data: Product): Promise<Product> {
+  create (data: Partial<Product>): Promise<Product> {
     return this.wrapper.createProduct(data);
   }
 
@@ -17,7 +17,7 @@ class Products {
     return this.wrapper.retrieveProduct(id);
   }
 
-  update (id: string, data: Product): Promise<Product> {
+  update (id: string, data: Partial<Product>): Promise<Product> {
     return this.wrapper.updateProduct(id, data);
   }
 

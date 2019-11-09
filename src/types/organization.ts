@@ -31,10 +31,10 @@ export type Legal = {
   name: string;
   legal_name: string;
   tax_id: string;
-  tax_system: enums.TaxSystem;
-  website: string;
-  phone: string;
+  tax_system: enums.TaxSystem|string;
   address: Address;
+  phone?: string;
+  website?: string;
 };
 
 export type Pendingstep = {

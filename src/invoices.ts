@@ -6,7 +6,7 @@ import { Query, QueryResponse } from "./types/query";
 class Invoices {
   constructor (public wrapper: Wrapper) {}
 
-  create (data: Invoice): Promise<Invoice> {
+  create (data: Partial<Invoice>): Promise<Invoice> {
     return this.wrapper.createInvoice(data);
   }
 

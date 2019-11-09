@@ -1,5 +1,5 @@
 export type Base = {
-  id?: string;
-  created_at?: string;
-  livemode?: boolean;
+  id: string;
+  created_at: string;
+  livemode: boolean;
 };

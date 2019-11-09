@@ -4,7 +4,7 @@ import { Query, QueryResponse } from "./types/query";
 
 class Customers {
   constructor (public wrapper: Wrapper) {}
-  create (data: Customer): Promise<Customer> {
+  create (data: Partial<Customer>): Promise<Customer> {
     return this.wrapper.createCustomer(data);
   }
   list (params: Query): Promise<QueryResponse<Customer>> {
@@ -13,7 +13,7 @@ class Customers {
   retrieve (id: string): Promise<Customer> {
     return this.wrapper.retrieveCustomer(id);
   }
-  update (id: string, data: Customers): Promise<Customer> {
+  update (id: string, data: Partial<Customers>): Promise<Customer> {
     return this.wrapper.updateCustomer(id, data);
   }
   del (id: string): Promise<Customer> {
