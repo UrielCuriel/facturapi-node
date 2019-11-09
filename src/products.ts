@@ -1,8 +1,12 @@
-class Products {
+import { Wrapper } from "./wrapper";
+
+export class Products {
+  public wrapper: Wrapper;
+
   /**
    * @param {Wrapper} wrapper
    */
-  constructor (wrapper) {
+  constructor (wrapper: Wrapper) {
     this.wrapper = wrapper;
   }
 
@@ -11,7 +15,7 @@ class Products {
    * @param {Object} data
    * @returns {Promise}
    */
-  create (data) {
+  create (data: object): Promise<any> {
     return this.wrapper.createProduct(data);
   }
 
@@ -20,7 +24,7 @@ class Products {
    * @param {[Object]} params - Search parameters
    * @returns {Promise}
    */
-  list (params) {
+  list (params: [object]): Promise<any> {
     return this.wrapper.listProducts(params);
   }
 
@@ -29,7 +33,7 @@ class Products {
    * @param {string} id
    * @returns {Promise}
    */
-  retrieve (id) {
+  retrieve (id: string): Promise<any> {
     return this.wrapper.retrieveProduct(id);
   }
 
@@ -39,7 +43,7 @@ class Products {
    * @param {Object} data
    * @returns {Promise}
    */
-  update (id, data) {
+  update (id: string, data: object): Promise<any> {
     return this.wrapper.updateProduct(id, data);
   }
 
@@ -48,7 +52,7 @@ class Products {
    * @param {string} id
    * @returns {Promise}
    */
-  del (id) {
+  del (id: string): Promise<any> {
     return this.wrapper.removeProduct(id);
   }
 
@@ -57,7 +61,7 @@ class Products {
    * @param {string} criteria
    * @returns {Promise}
    */
-  keys (criteria) {
+  keys (criteria: string): Promise<any> {
     return this.wrapper.keys(criteria);
   }
 
@@ -66,9 +70,7 @@ class Products {
    * @param {string} criteria
    * @returns {Promise}
    */
-  units (criteria) {
+  units (criteria: string): Promise<any> {
     return this.wrapper.units(criteria);
   }
 }
-
-module.exports = Products;

@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [2.2.1] 2019-11-09
+
+- add support to use in es6 project (typescript)
+
+```typescript
+import { Facturapi } from "facturapi-es6";
+const facturapi = new Facturapi("YOUR_API_KEY");
+```
+
 ## [2.0.0] 2018-08-04
 
 ## Breaking changes
