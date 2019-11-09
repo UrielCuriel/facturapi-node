@@ -1,81 +1,39 @@
-import { Wrapper } from "./wrapper";
+import Wrapper from "./wrapper";
+import { Organization, Legal, Customization, Keys } from "./types/organization";
+import { Query, QueryResponse } from "./types/query";
 
-export class Organizations {
-  public wrapper: Wrapper;
+class Organizations {
+  constructor (public wrapper: Wrapper) {}
 
-  /**
-   * @param {Wrapper} wrapper
-   */
-  constructor (wrapper: Wrapper) {
-    this.wrapper = wrapper;
-  }
-
-  /**
-   * Creates a new organization for your account
-   * @param {Object} data
-   * @returns {Promise}
-   */
-  create (data: any) {
+  create (data: { name: string }): Promise<Organization> {
     return this.wrapper.createOrganization(data);
   }
 
-  /**
-   * Gets a paginated list of organizations that belong to your account
-   * @param {[Object]} params - Search parameters
-   * @returns {Promise}
-   */
-  list (params: {}) {
+  list (params: Query): Promise<QueryResponse<Organization>> {
     return this.wrapper.listOrganizations(params);
   }
 
-  /**
-   * Gets a single organization object
-   * @param {string} id
-   * @returns {Promise}
-   */
-  retrieve (id: string) {
+  retrieve (id: string): Promise<Organization> {
     return this.wrapper.retrieveOrganization(id);
   }
 
-  /**
-   * Updates the organization's legal information
-   * @param {string} id
-   * @param {Object} data
-   * @returns {Promise}
-   */
-  updateLegal (id: string, data: any) {
+  updateLegal (id: string, data: Legal): Promise<Organization> {
     return this.wrapper.updateOrganizationLegal(id, data);
   }
 
-  /**
-   * Updates the organization's customization information
-   * @param {string} id
-   * @param {Object} data
-   * @returns {Promise}
-   */
-  updateCustomization (id: string, data: any) {
+  updateCustomization (id: string, data: Customization): Promise<Organization> {
     return this.wrapper.updateOrganizationCustomization(id, data);
   }
 
-  /**
-   * Uploads the organization's logo
-   * @param {string} id
-   * @param {ReadableStream} file
-   * @returns {Promise}
-   */
-  uploadLogo (id: string, file: any) {
+  uploadLogo (id: string, file: any): Promise<Organization> {
     return this.wrapper.uploadOrganizationLogo(id, file);
   }
-
-  /**
-   * Uploads the organization's certificate (CSD)
-   * @param {string} id
-   * @param {ReadableStream} cerFile
-   * @param {ReadableStream} keyFile
-   * @param {string} password
-   * @returns {Promise}
-   */
-  uploadCertificate (id: string, cerFile: any, keyFile: any, password: any) {
+  uploadCertificate (
+    id: string,
+    cerFile: any,
+    keyFile: any,
+    password: any
+  ): Promise<Organization> {
     return this.wrapper.uploadOrganizationCertificate(
       id,
       cerFile,
@@ -84,21 +42,13 @@ export class Organizations {
     );
   }
 
-  /**
-   * Permanently removes a organization from your account.
-   * @param {string} id
-   * @returns {Promise}
-   */
-  del (id: string) {
+  del (id: string): Promise<Organization> {
     return this.wrapper.removeOrganization(id);
   }
 
-  /**
-   * Gets the api keys for an organization
-   * @param {string} id
-   * @returns {Promise}
-   */
-  getApiKeys (id: string) {
+  getApiKeys (id: string): Promise<Keys> {
     return this.wrapper.getOrganizationApiKeys(id);
   }
 }
+
+export default Organizations;

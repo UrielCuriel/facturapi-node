@@ -14,6 +14,8 @@ import { Facturapi } from "facturapi-es6";
 const facturapi = new Facturapi("YOUR_API_KEY");
 ```
 
+for build need install typescript global and run `tsc` in project directory this generate a `dist` folder
+
 ## [2.0.0] 2018-08-04
 
 ## Breaking changes

@@ -1,79 +1,41 @@
-import { Wrapper } from "./wrapper";
+import Wrapper from "./wrapper";
 import { ReadStream } from "fs";
+import { Invoice } from "./types/invoice";
+import { Query, QueryResponse } from "./types/query";
 
-export class Invoices {
-  public wrapper: Wrapper;
+class Invoices {
+  constructor (public wrapper: Wrapper) {}
 
-  /**
-   * @param {Wrapper} wrapper
-   */
-  constructor (wrapper: Wrapper) {
-    this.wrapper = wrapper;
-  }
-  /**
-   * Creates a new valid invoice (CFDI).
-   * @param {Object} data
-   * @returns {Promise}
-   */
-  create (data: object): Promise<any> {
+  create (data: Invoice): Promise<Invoice> {
     return this.wrapper.createInvoice(data);
   }
-  /**
-   * Gets a paginated list of invoices created by your organization
-   * @param {[Object]} params - Search parameters
-   * @returns {Promise}
-   */
-  list (params: [object]): Promise<any> {
+
+  list (params: Query & { customer: string }): Promise<QueryResponse<Invoice>> {
     return this.wrapper.listInvoices(params);
   }
-  /**
-   * Gets a single invoice object
-   * @param {string} id
-   * @returns {Promise}
-   */
-  retrieve (id: string): Promise<any> {
+
+  retrieve (id: string): Promise<Invoice> {
     return this.wrapper.retrieveInvoice(id);
   }
-  /**
-   * Cancels an invoice. The invoice will not be valid anymore and will change its status to canceled.
-   * @param {string} id
-   * @returns {Promise}
-   */
-  cancel (id: string): Promise<any> {
+
+  cancel (id: string): Promise<Invoice> {
     return this.wrapper.cancelInvoice(id);
   }
-  /**
-   * Sends the invoice to the customer's email
-   * @param {String} id Invoice Id
-   * @param {Object} data Additional arguments
-   * @param {String} data.email Email address to send the invoice to
-   * @returns {Promise}
-   */
-  sendByEmail (id: string, data: { email: string }): Promise<any> {
+
+  sendByEmail (id: string, data: { email: string }): Promise<Invoice> {
     return this.wrapper.sendInvoiceByEmail(id, data);
   }
-  /**
-   * Downloads the specified invoice in PDF format
-   * @param {string} id Invoice Id
-   * @returns {Promise<ReadStream>} PDF file in a stream
-   */
+
   downloadPdf (id: string): Promise<ReadStream> {
     return this.wrapper.downloadPdf(id);
   }
-  /**
-   * Downloads the specified invoice in XML format
-   * @param {string} id Invoice Id
-   * @returns {Promise<ReadStream>} XML file in a stream
-   */
+
   downloadXml (id: string): Promise<ReadStream> {
     return this.wrapper.downloadXml(id);
   }
-  /**
-   * Downloads the specified invoice in a ZIP package containing both PDF and XML files
-   * @param {string} id Invoice Id
-   * @returns {Promise<ReadStream>} ZIP file in a stream
-   */
+
   downloadZip (id: string): Promise<ReadStream> {
     return this.wrapper.downloadZip(id);
   }
 }
+export default Invoices;

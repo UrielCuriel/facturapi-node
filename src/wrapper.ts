@@ -19,8 +19,7 @@ function encodeStringToBase64 (text: string | ArrayBuffer | SharedArrayBuffer) {
   text = text.toString();
   return Buffer.from(text).toString("base64");
 }
-
-export class Wrapper {
+class Wrapper {
   public client: any;
   public t: any;
 
@@ -310,4 +309,4 @@ export class Wrapper {
   }
 }
 
-module.exports = Wrapper;
+export default Wrapper;

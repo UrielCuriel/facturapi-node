@@ -1,44 +1,38 @@
 import { enums } from "./enums";
-import { Wrapper } from "./wrapper";
-import { Customers } from "./customers";
-import { Products } from "./products";
-import { Organizations } from "./organizations";
-import { Invoices } from "./invoices";
+import Customers from "./customers";
+import Products from "./products";
+import Organizations from "./organizations";
+import Invoices from "./invoices";
+import Wrapper from "./wrapper";
 
-/**
- * Get an instance of the Facturapi library
- * @class
- * @param {string} apiKey Test or Live key.
- * @returns {Facturapi} Instance of this library
- */
-export class Facturapi {
+class Facturapi {
   public customers: Customers;
   public products: Products;
   public invoices: Invoices;
   public organizations: Organizations;
 
-  static get TaxType() {
+  static get TaxType () {
     return enums.TaxType;
   }
-  static get PaymentForm() {
+  static get PaymentForm () {
     return enums.PaymentForm;
   }
-  static get PaymentMethod() {
+  static get PaymentMethod () {
     return enums.PaymentMethod;
   }
-  static get InvoiceType() {
+  static get InvoiceType () {
     return enums.InvoiceType;
   }
-  static get InvoiceUse() {
+  static get InvoiceUse () {
     return enums.InvoiceUse;
   }
-  static get InvoiceRelation() {
+  static get InvoiceRelation () {
     return enums.InvoiceRelation;
   }
-  static get TaxSystem() {
+  static get TaxSystem () {
     return enums.TaxSystem;
   }
-  constructor(apiKey: string) {
+  constructor (apiKey: string) {
     const wrapper = new Wrapper(apiKey);
     this.customers = new Customers(wrapper);
     this.products = new Products(wrapper);
@@ -47,4 +41,4 @@ export class Facturapi {
   }
 }
 
-export default { Facturapi };
+export default Facturapi;
