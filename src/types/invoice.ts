@@ -5,8 +5,8 @@ import { enums } from "./enums";
 
 export type Invoice = {
   status?: string;
-  customer: string | Customer;
-  payment_form: enums.PaymentForm;
+  customer: string | Partial<Customer>;
+  payment_form: enums.PaymentForm | string;
   total: number;
   uuid: string;
   folio_number: number;
